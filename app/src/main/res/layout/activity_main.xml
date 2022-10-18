@@ -116,7 +116,7 @@
             android:text="Friends     Online: " />
 
         <Button
-            android:id="@+id/ranking"
+            android:id="@+id/rankingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
