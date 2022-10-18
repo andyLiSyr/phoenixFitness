@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">PhoenixFitness</string>
     <string name="input_calories">Input Calories</string>
+    <string name="enter">Enter</string>
 </resources>

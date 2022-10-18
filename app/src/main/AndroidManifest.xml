@@ -17,6 +17,9 @@
             android:name=".Ranking"
             android:exported="false" />
         <activity
+            android:name=".UserProfile"
+            android:exported="false"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

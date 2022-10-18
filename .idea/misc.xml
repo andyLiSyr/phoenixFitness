@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.15494740804036455" />
-        <entry key="app/src/main/res/layout/rankings.xml" value="0.17536315917968748" />
+        <entry key="..\:/Users/13478/phoenixFitness/app/src/main/res/drawable/ic_launcher_background.xml" value="0.323" />
+        <entry key="..\:/Users/13478/phoenixFitness/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/13478/phoenixFitness/app/src/main/res/layout/inputcals.xml" value="0.365625" />
+        <entry key="..\:/Users/13478/phoenixFitness/app/src/main/res/layout/rankings.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/13478/phoenixFitness/app/src/main/res/layout/userprofile.xml" value="0.3776041666666667" />
+        <entry key="..\:/Users/13478/phoenixFitness/app/src/main/res/menu/menu_main.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.1" />
       </map>
     </option>
