@@ -320,7 +320,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="John"
+                android:text="Peter"
                 android:textSize="11sp"
                 android:layout_weight="2"
                 android:gravity="center_horizontal"/>
