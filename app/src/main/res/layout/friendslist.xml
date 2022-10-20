@@ -79,7 +79,7 @@
         android:layout_marginTop="166dp"
         android:layout_marginEnd="16dp"
         android:background="#EDB9B9"
-        android:text="Jhon M."
+        android:text="John M."
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -91,7 +91,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="16dp"
         android:background="#EDB9B9"
-        android:text="Gan D."
+        android:text="Dan D."
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />

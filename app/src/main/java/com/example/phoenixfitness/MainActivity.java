@@ -13,18 +13,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button rankingButton;
     private ImageButton profileButton;
     private Button friendsOnline;
+    private Button weeklyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         rankingButton = findViewById(R.id.rankingButton);
         rankingButton.setOnClickListener(this);
+
         profileButton = findViewById(R.id.profile);
         profileButton.setOnClickListener(this);
+
         friendsOnline = findViewById(R.id.friends);
         friendsOnline.setOnClickListener(this);
 
+        weeklyButton = findViewById(R.id.weekly);
+        weeklyButton.setOnClickListener(this);
 
     }
 
@@ -41,10 +47,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 openFriendsActivity();
                 Toast.makeText(this,"Friends Are TextView for now", Toast.LENGTH_LONG).show();
                 break;
+            case R.id.weekly:
+                openWeeklyActivity();
+                break;
             default:
                 break;
         }
 
+    }
+
+    private void openWeeklyActivity() {
+        Intent intent = new Intent(this,WeeklyReport.class);
+        startActivity(intent);
     }
 
     private void openProfileActivity() {
