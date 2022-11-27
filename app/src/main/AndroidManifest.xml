@@ -14,17 +14,23 @@
         android:theme="@style/Theme.PhoenixFitness"
         tools:targetApi="31">
         <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".Friends"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Ranking"
             android:exported="false" />
         <activity
             android:name=".UserProfile"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".WeeklyReport"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -9,11 +9,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button rankingButton;
     private ImageButton profileButton;
     private Button friendsOnline;
     private Button weeklyButton;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         weeklyButton = findViewById(R.id.weekly);
         weeklyButton.setOnClickListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -73,6 +79,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void openFriendsActivity(){
         Intent intent = new Intent(this,Friends.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        FirebaseUser user= mAuth.getCurrentUser();
+        if (user==null){
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
+
     }
 
 

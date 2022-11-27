@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "982611757544",
+    "project_id": "phoenixfitness-d8537",
+    "storage_bucket": "phoenixfitness-d8537.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982611757544:android:94deb0ad1373f25c0b3c5d",
+        "android_client_info": {
+          "package_name": "com.example.phoenixfitness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982611757544-8q4hiq4dl5ar688t57873s02dkvv5ui2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFcFbMTie5w5UocoDQe2fDRdpm1_wqCuM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982611757544-8q4hiq4dl5ar688t57873s02dkvv5ui2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
