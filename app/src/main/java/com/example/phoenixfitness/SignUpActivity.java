@@ -47,6 +47,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         goToLogin = findViewById(R.id.goToLogin);
         goToLogin.setOnClickListener(this);
         db = FirebaseFirestore.getInstance();
+
     }
 
     @Override
