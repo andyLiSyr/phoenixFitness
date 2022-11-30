@@ -50,16 +50,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        FirebaseUser user= mAuth.getCurrentUser();
+        if (user!=null){
 
-        userRef = db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        userRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                accountName.setText(value.getString("firstName") + " " + value.getString("lastName"));
-            }
-        });
+            userRef = db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            userRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    accountName.setText(value.getString("firstName") + " " + value.getString("lastName"));
+                }
+            });
 
-    }
+     }}
 
     @Override
     public void onClick(View v){
