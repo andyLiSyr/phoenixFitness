@@ -2,10 +2,19 @@ package com.example.phoenixfitness;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -19,21 +28,31 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
     private Button rankingButton;
     private ImageButton profileButton;
     private Button friendsOnline;
     private Button weeklyButton;
+
+    //FireBase
     private FirebaseAuth mAuth;
     private DocumentReference userRef;
     private FirebaseFirestore db;
     private TextView accountName;
+
+    //StepCounter
+    private TextView textStepCounter;
+    private SensorManager sensorManager;
+    private Sensor mStepCounter;
+    private boolean stepCounterWorking;
+    int steps = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Buttons
         rankingButton = findViewById(R.id.rankingButton);
         rankingButton.setOnClickListener(this);
 
@@ -48,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         accountName = findViewById(R.id.accountName);
 
+        //Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         FirebaseUser user= mAuth.getCurrentUser();
@@ -61,7 +81,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-     }}
+     }
+
+        //StepCounter
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) ==
+                PackageManager.PERMISSION_DENIED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
+            }
+        }
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        textStepCounter = findViewById(R.id.stepscount);
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null){
+            mStepCounter = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+            stepCounterWorking = true;
+        }
+        else {
+            textStepCounter.setText("Counter Sensor is not Working");
+            stepCounterWorking = false;
+        }
+    }
 
     @Override
     public void onClick(View v){
@@ -115,6 +157,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if(sensorEvent.sensor == mStepCounter){
+            steps = (int) sensorEvent.values[0];
+            textStepCounter.setText(String.valueOf(steps));
+        }
+    }
 
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null)
+            sensorManager.registerListener(this, mStepCounter, SensorManager.SENSOR_DELAY_NORMAL);
+    }
 }

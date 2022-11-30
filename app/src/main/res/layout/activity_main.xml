@@ -21,7 +21,7 @@
             android:layout_above="@+id/InputCals"
             android:layout_marginStart="60dp"
             android:layout_marginBottom="75dp"
-            android:background="@color/white"
+            android:background="@color/black"
             android:orientation="vertical">
 
             <TextView
@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="#00F1D9"
+                android:textColor="@color/white"
                 android:padding="10dp"
                 android:text="Steps: " />
 
@@ -39,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="10dp"
+                android:textColor="@color/white"
                 android:text="Calories Burned: " />
 
             <TextView
@@ -47,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="10dp"
+                android:textColor="@color/white"
                 android:text="Total Calories: " />
         </LinearLayout>
 
@@ -72,7 +75,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginEnd="60dp"
             android:layout_marginBottom="75dp"
-            android:background="@color/white"
+            android:background="@color/black"
             android:orientation="vertical">
 
             <TextView
@@ -81,7 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="10dp"
-                android:text="1,231" />
+                android:textColor="@color/white"
+                android:text="0" />
 
             <TextView
                 android:id="@+id/caloriesBurncount"
@@ -89,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="10dp"
+                android:textColor="@color/white"
                 android:text="953" />
 
             <TextView
@@ -97,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="10dp"
+                android:textColor="@color/white"
                 android:text="800" />
         </LinearLayout>
 
