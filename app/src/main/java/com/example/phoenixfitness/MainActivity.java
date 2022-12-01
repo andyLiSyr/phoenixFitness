@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton profileButton;
     private Button friendsOnline;
     private Button weeklyButton;
+    private Button inputCalsButton;
 
     //FireBase
     private FirebaseAuth mAuth;
@@ -46,6 +47,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Sensor mStepCounter;
     private boolean stepCounterWorking;
     int steps = 0;
+
+    //Input Calories
+    private TextView textCalsCounter;
+    private TextView textCalsEntered;
+    int caloriesEnt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         weeklyButton = findViewById(R.id.weekly);
         weeklyButton.setOnClickListener(this);
+
+        inputCalsButton = findViewById(R.id.InputCals);
+        inputCalsButton.setOnClickListener(this);
 
         accountName = findViewById(R.id.accountName);
 
@@ -103,6 +112,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             textStepCounter.setText("Counter Sensor is not Working");
             stepCounterWorking = false;
         }
+
+        //Calories Counter
+        textCalsCounter = findViewById(R.id.totalcaloriescount);
+        textCalsEntered = findViewById(R.id.enterCals);
+
     }
 
     @Override
@@ -121,10 +135,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.weekly:
                 openWeeklyActivity();
                 break;
+            case R.id.InputCals:
+                updateCals();
+                break;
             default:
                 break;
         }
 
+    }
+
+    private void updateCals() {
+        caloriesEnt = caloriesEnt + Integer.parseInt(textCalsEntered.getText().toString());
+        textCalsCounter.setText(String.valueOf(caloriesEnt));
     }
 
     private void openWeeklyActivity() {

@@ -103,7 +103,7 @@
                 android:layout_gravity="center"
                 android:padding="10dp"
                 android:textColor="@color/white"
-                android:text="800" />
+                android:text="0" />
         </LinearLayout>
 
         <Button
@@ -165,7 +165,7 @@
             android:background="@drawable/testprofile" />
 
         <EditText
-            android:id="@+id/editTextNumber"
+            android:id="@+id/enterCals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/InputCals"
