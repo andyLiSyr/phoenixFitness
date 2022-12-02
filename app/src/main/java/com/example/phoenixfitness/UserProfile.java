@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,11 +25,11 @@ public class UserProfile extends AppCompatActivity {
     private TextView userName;
     private DocumentReference userRef;
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.userprofile);
-        userName = findViewById(R.id.userName);
+
+        //Firebase
         db = FirebaseFirestore.getInstance();
         userRef = db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
         userRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {

@@ -13,6 +13,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -52,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textCalsCounter;
     private TextView textCalsEntered;
     int caloriesEnt = 0;
+
+    //Burned Calories
+    private TextView textCalsBurned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +121,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Calories Counter
         textCalsCounter = findViewById(R.id.totalcaloriescount);
         textCalsEntered = findViewById(R.id.enterCals);
+
+        //Calories Burned
+        textCalsBurned = findViewById(R.id.caloriesBurncount);
+        textStepCounter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                int calsB = Integer.parseInt(textStepCounter.getText().toString());
+                textCalsBurned.setText(String.valueOf(calsB/20));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
     }
 

@@ -7,7 +7,7 @@
     android:background="#E84545">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/uploadPicButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update Photo"
@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.601" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/pPic"
         android:layout_width="127dp"
         android:layout_height="124dp"
         android:background="@drawable/testprofile"
@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/uploadPicButton"
         app:layout_constraintVertical_bias="0.13" />
 
     <Button
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update Name"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/uploadPicButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,5 +78,5 @@
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/uploadPicButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
