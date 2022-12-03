@@ -170,8 +170,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateCals() {
-        caloriesEnt = caloriesEnt + Integer.parseInt(textCalsEntered.getText().toString());
-        textCalsCounter.setText(String.valueOf(caloriesEnt));
+        if (!textCalsEntered.getText().toString().matches("")) {
+            caloriesEnt = caloriesEnt + Integer.parseInt(textCalsEntered.getText().toString());
+            textCalsCounter.setText(String.valueOf(caloriesEnt));
+        }
     }
 
     private void openWeeklyActivity() {
