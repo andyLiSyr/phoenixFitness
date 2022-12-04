@@ -14,9 +14,11 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Input Calories
     private TextView textCalsCounter;
-    private TextView textCalsEntered;
+    private EditText textCalsEntered;
     int caloriesEnt = 0;
 
 
@@ -146,17 +148,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateCals() {
-        caloriesEnt = Integer.parseInt(textCalsEntered.getText().toString());
-        //textCalsCounter.setText(String.valueOf(caloriesEnt));
-        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()){
-                    int calories=documentSnapshot.getLong("calories").intValue();
-                    userRef.update("calories",caloriesEnt+calories);
+        if (TextUtils.isEmpty(textCalsEntered.getText())){
+            textCalsEntered.setError("No calories input not allowed");
+            textCalsEntered.requestFocus();
+        }
+
+
+
+        else {
+            caloriesEnt = Integer.parseInt(textCalsEntered.getText().toString());
+
+            //textCalsCounter.setText(String.valueOf(caloriesEnt));
+            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()) {
+                        int calories = documentSnapshot.getLong("calories").intValue();
+                        userRef.update("calories", caloriesEnt + calories);
+                    }
                 }
-            }
-        });
+            });
+        }
 
     }
 
