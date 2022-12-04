@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -20,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,6 +74,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String lastName = lastNameInput.getText().toString();
         String email = signUpEmailInput.getText().toString();
         String password = signUpPasswordInput.getText().toString();
+        String url = "https://firebasestorage.googleapis.com/v0/b/phoenixfitness-d8537.appspot.com/o/images%2Ftestprofile.png?alt=media&token=960a5e06-a7ce-4a3b-baaf-c6191397115f";
 
         if (TextUtils.isEmpty(firstName)){
             firstNameInput.setError("First name cannot be empty");
@@ -101,6 +107,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                 user.put("firstName", firstName);
                                 user.put("lastName", lastName);
                                 user.put("email", email);
+                                user.put("image", url);
+                                user.put("calories", 0);
+                                user.put("dailySteps", 0);
+                                user.put("totalSteps", 0);
+                                user.put("caloriesBurned", 0);
+
 
                                 db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override

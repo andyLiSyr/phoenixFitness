@@ -7,7 +7,7 @@
     android:background="#E84545">
 
     <Button
-        android:id="@+id/uploadPicButton"
+        android:id="@+id/updatePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update Photo"
@@ -19,10 +19,9 @@
         app:layout_constraintVertical_bias="0.601" />
 
     <ImageView
-        android:id="@+id/pPic"
+        android:id="@+id/imageView"
         android:layout_width="127dp"
         android:layout_height="124dp"
-        android:background="@drawable/testprofile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,15 +37,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uploadPicButton"
+        app:layout_constraintTop_toBottomOf="@+id/updatePhoto"
         app:layout_constraintVertical_bias="0.13" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/nameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update Name"
-        app:layout_constraintBottom_toTopOf="@+id/uploadPicButton"
+        app:layout_constraintBottom_toTopOf="@+id/updatePhoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,8 +74,8 @@
         android:text=""
         android:textAlignment="center"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintBottom_toTopOf="@+id/nameButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uploadPicButton" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
