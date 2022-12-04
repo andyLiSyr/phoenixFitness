@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -14,7 +15,9 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -51,14 +54,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //StepCounter
     private TextView textStepCounter;
     private SensorManager sensorManager;
+    private Sensor mStepDetector;
     private Sensor mStepCounter;
     private boolean stepCounterWorking;
     int steps = 0;
+    int counterSteps = 0;
+    int detectorSteps= 0;
+    private TextView textCalsBurned;
 
     //Input Calories
     private TextView textCalsCounter;
     private EditText textCalsEntered;
     int caloriesEnt = 0;
+
+
+
+    //SharedPreferences
+    private SharedPreferences mPreferences;
+    private String sharedPrefFile = "com.example.phoenixfitness";
+    private final String TODAY_DATE = "todayDate";
+    private final String DAILYSTEPS_KEY = "dailysteps";
 
 
 
@@ -84,16 +99,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         inputCalsButton.setOnClickListener(this);
 
 
-
         accountName = findViewById(R.id.accountName);
 
         //Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
-
-
-
 
         //StepCounter
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) ==
@@ -105,10 +115,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         textStepCounter = findViewById(R.id.stepscount);
+        textCalsBurned = findViewById(R.id.caloriesBurncount);
+
+
+        textStepCounter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                int calsB = Integer.parseInt(textStepCounter.getText().toString());
+                textCalsBurned.setText(String.valueOf(calsB/20));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null){
             mStepCounter = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+            stepCounterWorking = true;
+        }
+        else {
+            textStepCounter.setText("Counter Sensor is not Working");
+            stepCounterWorking = false;
+        }
+        if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR) != null){
+            mStepDetector = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
             stepCounterWorking = true;
         }
         else {
@@ -120,7 +158,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textCalsCounter = findViewById(R.id.totalcaloriescount);
         textCalsEntered = findViewById(R.id.enterCals);
 
+        //Shared Preference
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        steps = mPreferences.getInt(DAILYSTEPS_KEY, 0);
+        textStepCounter.setText(String.valueOf(steps)); //steps - 0
+
     }
+
+
 
     @Override
     public void onClick(View v){
@@ -216,10 +261,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        if(sensorEvent.sensor == mStepCounter){
-            steps = (int) sensorEvent.values[0];
-            textStepCounter.setText(String.valueOf(steps));
+        int sensorType = sensorEvent.sensor.getType();
+        switch (sensorType) {
+            case Sensor.TYPE_STEP_DETECTOR:
+                detectorSteps++;
+                break;
+            case Sensor.TYPE_STEP_COUNTER:
+                if (counterSteps < 1){
+                    counterSteps = (int) sensorEvent.values [0];
+                }
+                steps = (int) sensorEvent.values[0] - counterSteps;
+                break;
         }
+
+        textStepCounter.setText(String.valueOf(steps));
     }
 
     @Override
@@ -232,5 +287,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null)
             sensorManager.registerListener(this, mStepCounter, SensorManager.SENSOR_DELAY_NORMAL);
+        if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR) != null)
+            sensorManager.registerListener(this, mStepDetector, SensorManager.SENSOR_DELAY_NORMAL);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences.Editor preferenceEditor = mPreferences.edit();
+        //preferenceEditor.putInt(CALSENT_KEY, caloriesEnt);
+        preferenceEditor.putInt(DAILYSTEPS_KEY, steps);
+        //preferenceEditor.putString(TODAY_DATE, storedDate);
+
+        preferenceEditor.apply();
+
+    }
+
+
 }
