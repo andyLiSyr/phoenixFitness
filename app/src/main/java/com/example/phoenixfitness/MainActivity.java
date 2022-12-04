@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -13,6 +14,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -29,6 +31,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
     private Button rankingButton;
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SensorManager sensorManager;
     private Sensor mStepCounter;
     private boolean stepCounterWorking;
-    int steps = 0;
+    int dailySteps = 0;
 
     //Input Calories
     private TextView textCalsCounter;
@@ -57,6 +60,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Burned Calories
     private TextView textCalsBurned;
+
+    //SharedPreferences
+    private SharedPreferences mPreferences;
+    private String sharedPrefFile = "com.example.phoenixfitness";
+    private final String CALSENT_KEY = "calsEnt";
+    private final String DAILYSTEPS_KEY = "dailysteps";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
 
      }
+
 
         //StepCounter
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) ==
@@ -141,7 +151,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+        //Shared Preference
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
+        //Restore Shared Pref
+        caloriesEnt = mPreferences.getInt(CALSENT_KEY, 0);
+        textCalsCounter.setText(String.valueOf(caloriesEnt));
+        dailySteps = mPreferences.getInt(DAILYSTEPS_KEY, 0);
     }
 
     @Override
@@ -209,8 +225,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(sensorEvent.sensor == mStepCounter){
-            steps = (int) sensorEvent.values[0];
-            textStepCounter.setText(String.valueOf(steps));
+            dailySteps = (int) sensorEvent.values[0];
+            textStepCounter.setText(String.valueOf(dailySteps));
         }
     }
 
@@ -224,5 +240,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null)
             sensorManager.registerListener(this, mStepCounter, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences.Editor preferenceEditor = mPreferences.edit();
+        preferenceEditor.putInt(CALSENT_KEY, caloriesEnt);
+        preferenceEditor.putInt(DAILYSTEPS_KEY, dailySteps);
+
+        preferenceEditor.apply();
+
+
     }
 }
