@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
     private Button rankingButton;
-    private ImageButton profileButton;
+    private ImageView profileImage;
     private Button friendsOnline;
     private Button weeklyButton;
     private Button inputCalsButton;
@@ -68,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rankingButton = findViewById(R.id.rankingButton);
         rankingButton.setOnClickListener(this);
 
-        profileButton = findViewById(R.id.profile);
-        profileButton.setOnClickListener(this);
+        profileImage = findViewById(R.id.profileImage);
+        profileImage.setOnClickListener(this);
 
         friendsOnline = findViewById(R.id.friends);
         friendsOnline.setOnClickListener(this);
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.rankingButton:
                 openRankingActivity();
                 break;
-            case R.id.profile:
+            case R.id.profileImage:
                 openProfileActivity();
                 break;
             case R.id.friends:

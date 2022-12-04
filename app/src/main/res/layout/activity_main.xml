@@ -153,8 +153,8 @@
             android:textAlignment="center"
             android:textColor="@color/white" />
 
-        <ImageButton
-            android:id="@+id/profile"
+        <ImageView
+            android:id="@+id/profileImage"
             android:layout_width="130dp"
             android:layout_height="120dp"
             android:layout_alignBottom="@+id/accountName"
@@ -162,7 +162,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="52dp"
             android:layout_marginBottom="58dp"
-            android:background="@drawable/testprofile" />
+             />
 
         <EditText
             android:id="@+id/enterCals"
