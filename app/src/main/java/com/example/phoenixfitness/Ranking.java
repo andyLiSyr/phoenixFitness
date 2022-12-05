@@ -76,39 +76,13 @@ public class Ranking extends AppCompatActivity {
         for(int i = 0; i < array.size(); i++) {
             nameViews.get(i).setText(array.get(i).toString());
         }
-        /*
-        rank1Name.setText(array.get(0));
-        rank2Name.setText(array.get(1));
-        rank3Name.setText(array.get(2));
-        rank4Name.setText(array.get(3));
-        rank5Name.setText(array.get(4));
-        rank6Name.setText(array.get(5));
-        rank7Name.setText(array.get(6));
-        rank8Name.setText(array.get(7));
-        rank9Name.setText(array.get(8));
-        rank10Name.setText(array.get(9));
-
-         */
     }
 
     private void showRankingSteps(ArrayList<Integer> array){
         for(int i = 0; i < array.size(); i++) {
             stepViews.get(i).setText(array.get(i).toString());
         }
-        /*
-        rank1Steps.setText(array.get(0).toString());
-        rank2Steps.setText(array.get(1).toString());
-        rank3Steps.setText(array.get(2).toString());
 
-        rank4Steps.setText(array.get(3));
-        rank5Steps.setText(array.get(4));
-        rank6Steps.setText(array.get(5));
-        rank7Steps.setText(array.get(6));
-        rank8Steps.setText(array.get(7));
-        rank9Steps.setText(array.get(8));
-        rank10Steps.setText(array.get(9));
-
-         */
     }
 
     @Override

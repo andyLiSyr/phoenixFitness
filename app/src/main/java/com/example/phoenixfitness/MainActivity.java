@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -36,6 +38,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.squareup.picasso.Picasso;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
     private Button rankingButton;
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Sensor mStepDetector;
     private Sensor mStepCounter;
     private boolean stepCounterWorking;
-    int steps = 0;
+    int steps=0;
     int counterSteps = 0;
     int detectorSteps= 0;
     private TextView textCalsBurned;
@@ -74,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String sharedPrefFile = "com.example.phoenixfitness";
     private final String TODAY_DATE = "todayDate";
     private final String DAILYSTEPS_KEY = "dailysteps";
+
+
 
 
 
@@ -126,8 +131,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                int calsB = Integer.parseInt(textStepCounter.getText().toString());
-                textCalsBurned.setText(String.valueOf(calsB/20));
+               // int calsB = Integer.parseInt(textStepCounter.getText().toString());
+               // textCalsBurned.setText(String.valueOf(calsB/20));
             }
 
             @Override
@@ -161,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Shared Preference
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         steps = mPreferences.getInt(DAILYSTEPS_KEY, 0);
-        textStepCounter.setText(String.valueOf(steps)); //steps - 0
-
+        //textStepCounter.setText(String.valueOf(steps)); //steps - 0
+        resetStepsAndCals();
     }
 
 
@@ -189,6 +194,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 break;
         }
+
+    }
+    private void resetStepsAndCals(){
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY,23);
+        c.set(Calendar.MINUTE,59);
+        c.set(Calendar.SECOND,59);
+        //c.set(Calendar.MILLISECOND,0);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent =PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_MUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC,c.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
 
     }
 
@@ -252,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String url=value.getString("image");
                     Picasso.get().load(url).into(profileImage);
                     textCalsCounter.setText(value.getLong("calories").toString());
+                    //textStepCounter.setText(value.getLong("dailySteps").toString());
                 }
             });
         }
@@ -271,6 +289,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     counterSteps = (int) sensorEvent.values [0];
                 }
                 steps = (int) sensorEvent.values[0] - counterSteps;
+                //userRef.update("dailySteps",steps);
                 break;
         }
 
@@ -285,6 +304,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null)
             sensorManager.registerListener(this, mStepCounter, SensorManager.SENSOR_DELAY_NORMAL);
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR) != null)
@@ -294,14 +314,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
+        //userRef.update("dailySteps",7);
         SharedPreferences.Editor preferenceEditor = mPreferences.edit();
         //preferenceEditor.putInt(CALSENT_KEY, caloriesEnt);
         preferenceEditor.putInt(DAILYSTEPS_KEY, steps);
-        //preferenceEditor.putString(TODAY_DATE, storedDate);
+
+       // preferenceEditor.putString(TODAY_DATE, storedDate);
 
         preferenceEditor.apply();
 
     }
+
+
+
+
+
+
+
 
 
 }
