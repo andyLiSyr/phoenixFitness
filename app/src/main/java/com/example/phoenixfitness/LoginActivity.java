@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText logInEmailInput;
     private EditText logInPasswordInput;
     private Button logInButton;
-    private TextView goToSignUp;
+    private Button goToSignUp;
 
 
     @Override
@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         logInPasswordInput = findViewById(R.id.logInPasswordInput);
         logInButton = findViewById(R.id.logInButton);
         logInButton.setOnClickListener(this);
-        goToSignUp = findViewById(R.id.goToSignUp);
+        goToSignUp = findViewById(R.id.registerButton);
         goToSignUp.setOnClickListener(this);
 
 
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.logInButton:
                 logInUser();
                 break;
-            case R.id.goToSignUp:
+            case R.id.registerButton:
                 openSignUpActivity();
                 break;
             default:
