@@ -107,21 +107,6 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/friends"
-            android:layout_width="wrap_content"
-            android:layout_height="96dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="550dp"
-            android:layout_marginEnd="203dp"
-            android:layout_marginBottom="93dp"
-            android:padding="20dp"
-            android:text="Friends     Online: " />
-
-        <Button
             android:id="@+id/rankingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -129,12 +114,12 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="240dp"
+            android:layout_marginStart="131dp"
             android:layout_marginTop="559dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="139dp"
             android:layout_marginBottom="104dp"
             android:padding="20dp"
-            android:text="Ranking: 10" />
+            android:text="Ranking" />
 
         <TextView
             android:id="@+id/accountName"
@@ -180,19 +165,6 @@
             android:hint="Enter your Number"
             android:inputType="numberSigned"
             android:textAlignment="center" />
-
-        <Button
-            android:id="@+id/weekly"
-            android:layout_width="252dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="78dp"
-            android:layout_marginEnd="81dp"
-            android:layout_marginBottom="36dp"
-            android:text="Weekly Report" />
 
     </RelativeLayout>
 

@@ -18,18 +18,6 @@
 
     </TextView>
 
-    <TextView
-        android:id="@+id/userRank"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rankingTable"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="You are rank 10"
-        android:textSize="30sp">
-
-    </TextView>
-
 
     <TableLayout
         android:id="@+id/rankingTable"

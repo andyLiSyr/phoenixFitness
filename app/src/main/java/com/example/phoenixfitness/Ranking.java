@@ -26,8 +26,7 @@ public class Ranking extends AppCompatActivity {
     private ArrayList<String> name;
     private ArrayList<TextView> stepViews;
     private ArrayList<TextView> nameViews;
-    private TextView rank1Name;
-    private TextView rank1Steps;
+    private TextView rank1Name, rank1Steps;
     private TextView rank2Name, rank2Steps;
     private TextView rank3Name, rank3Steps;
     private TextView rank4Name, rank4Steps;
@@ -89,14 +88,14 @@ public class Ranking extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         userCollectionRef = db.collection("User");
-        userCollectionRef.orderBy("calories", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        userCollectionRef.orderBy("dailySteps", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot document: task.getResult()){
 
                         name.add(document.getString("firstName") + " " + document.getString("lastName"));
-                        steps.add(document.getLong("calories").intValue());
+                        steps.add(document.getLong("dailySteps").intValue());
 
                     }
                     showRankingName(name);

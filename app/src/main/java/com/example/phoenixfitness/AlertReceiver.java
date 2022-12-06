@@ -3,6 +3,7 @@ package com.example.phoenixfitness;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -28,6 +29,7 @@ public class AlertReceiver extends BroadcastReceiver {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot document: task.getResult()){
                                 document.getReference().update("calories",0);
+                                document.getReference().update("dailySteps",0);
                             }
                         }
                     }

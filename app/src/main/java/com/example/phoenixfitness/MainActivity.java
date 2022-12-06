@@ -43,8 +43,6 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
     private Button rankingButton;
     private ImageView profileImage;
-    private Button friendsOnline;
-    private Button weeklyButton;
     private Button inputCalsButton;
 
     //FireBase
@@ -94,11 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profileImage = findViewById(R.id.profileImage);
         profileImage.setOnClickListener(this);
 
-        friendsOnline = findViewById(R.id.friends);
-        friendsOnline.setOnClickListener(this);
-
-        weeklyButton = findViewById(R.id.weekly);
-        weeklyButton.setOnClickListener(this);
 
         inputCalsButton = findViewById(R.id.InputCals);
         inputCalsButton.setOnClickListener(this);
@@ -131,8 +124,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-               // int calsB = Integer.parseInt(textStepCounter.getText().toString());
-               // textCalsBurned.setText(String.valueOf(calsB/20));
+                int calsB = Integer.parseInt(textStepCounter.getText().toString());
+                textCalsBurned.setText(String.valueOf(calsB/20));
             }
 
             @Override
@@ -181,13 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.profileImage:
                 openProfileActivity();
                 break;
-            case R.id.friends:
-                openFriendsActivity();
-                Toast.makeText(this,"Friends Are TextView for now", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.weekly:
-                openWeeklyActivity();
-                break;
+
             case R.id.InputCals:
                 updateCals();
                 break;
@@ -234,10 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void openWeeklyActivity() {
-        Intent intent = new Intent(this,WeeklyReport.class);
-        startActivity(intent);
-    }
+
 
     private void openProfileActivity() {
         Intent intent = new Intent(this,UserProfile.class);
@@ -248,10 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this,Ranking.class);
         startActivity(intent);
     }
-    public void openFriendsActivity(){
-        Intent intent = new Intent(this,Friends.class);
-        startActivity(intent);
-    }
+
 
     @Override
     protected void onStart(){
@@ -269,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String url=value.getString("image");
                     Picasso.get().load(url).into(profileImage);
                     textCalsCounter.setText(value.getLong("calories").toString());
-                    //textStepCounter.setText(value.getLong("dailySteps").toString());
+                    textStepCounter.setText(value.getLong("dailySteps").toString());
                 }
             });
         }
@@ -289,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     counterSteps = (int) sensorEvent.values [0];
                 }
                 steps = (int) sensorEvent.values[0] - counterSteps;
-                //userRef.update("dailySteps",steps);
+                userRef.update("dailySteps",steps);
                 break;
         }
 
@@ -314,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
-        //userRef.update("dailySteps",7);
+        //userRef.update("dailySteps",steps);
         SharedPreferences.Editor preferenceEditor = mPreferences.edit();
         //preferenceEditor.putInt(CALSENT_KEY, caloriesEnt);
         preferenceEditor.putInt(DAILYSTEPS_KEY, steps);
