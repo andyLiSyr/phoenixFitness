@@ -39,8 +39,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.squareup.picasso.Picasso;
 import java.util.Calendar;
-
+//Main activity page/ user home page
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SensorEventListener {
+    //Declaring Variables
+
+    //Buttons
     private Button rankingButton;
     private ImageView profileImage;
     private Button inputCalsButton;
@@ -50,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DocumentReference userRef;
     private FirebaseFirestore db;
     private TextView accountName;
-
 
     //StepCounter
     private TextView textStepCounter;
@@ -68,22 +70,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText textCalsEntered;
     int caloriesEnt = 0;
 
-
-
     //SharedPreferences
     private SharedPreferences mPreferences;
     private String sharedPrefFile = "com.example.phoenixfitness";
     private final String TODAY_DATE = "todayDate";
     private final String DAILYSTEPS_KEY = "dailysteps";
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Initializing the declared variables
 
         // Buttons
         rankingButton = findViewById(R.id.rankingButton);
@@ -92,11 +90,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profileImage = findViewById(R.id.profileImage);
         profileImage.setOnClickListener(this);
 
-
         inputCalsButton = findViewById(R.id.InputCals);
         inputCalsButton.setOnClickListener(this);
 
-
+        //account name
         accountName = findViewById(R.id.accountName);
 
         //Firebase
@@ -115,13 +112,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textStepCounter = findViewById(R.id.stepscount);
         textCalsBurned = findViewById(R.id.caloriesBurncount);
 
-
+        //function that updates calories burned based on when step counter changes
         textStepCounter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
+            //calculate and update calories burned when total steps changes
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 int calsB = Integer.parseInt(textStepCounter.getText().toString());
@@ -168,13 +165,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v){
         switch (v.getId()){
+            //open ranking activity when clicking on the ranking button
             case R.id.rankingButton:
                 openRankingActivity();
                 break;
+            //open user profile activity when clicking on the profile image
             case R.id.profileImage:
                 openProfileActivity();
                 break;
-
+            //update calories when clicking on input calories button
             case R.id.InputCals:
                 updateCals();
                 break;
@@ -183,31 +182,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+    //resets steps and calorie intake to 0 at the end of the day
     private void resetStepsAndCals(){
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY,23);
         c.set(Calendar.MINUTE,59);
         c.set(Calendar.SECOND,59);
-        //c.set(Calendar.MILLISECOND,0);
         Intent intent = new Intent(this, AlertReceiver.class);
         PendingIntent pendingIntent =PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_MUTABLE);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC,c.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
 
     }
-
+    //update calories function
     private void updateCals() {
+        //error checking for empty input of calories
         if (TextUtils.isEmpty(textCalsEntered.getText())){
             textCalsEntered.setError("No calories input not allowed");
             textCalsEntered.requestFocus();
         }
-
-
-
         else {
+            //update calories in Firebase
             caloriesEnt = Integer.parseInt(textCalsEntered.getText().toString());
-
-            //textCalsCounter.setText(String.valueOf(caloriesEnt));
             userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -218,29 +214,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }
-
     }
 
 
-
+    //open profile activity function
     private void openProfileActivity() {
         Intent intent = new Intent(this,UserProfile.class);
         startActivity(intent);
     }
-
+    //open ranking activity function
     public void openRankingActivity(){
         Intent intent = new Intent(this,Ranking.class);
         startActivity(intent);
     }
 
-
     @Override
     protected void onStart(){
         super.onStart();
+        //Check if user is logged in
         FirebaseUser user= mAuth.getCurrentUser();
+        //if not go to the login page
         if (user==null){
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
+        //otherwise get user info from Firebase to display to the user's home page
         else {
             userRef = db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
             userRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -257,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
+    //step sensor function
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         int sensorType = sensorEvent.sensor.getType();
@@ -273,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 userRef.update("dailySteps",steps);
                 break;
         }
-
         textStepCounter.setText(String.valueOf(steps));
     }
 

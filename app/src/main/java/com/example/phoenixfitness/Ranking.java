@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+//Leaderboard that displays top 10 users with the most daily steps
 public class Ranking extends AppCompatActivity {
+    //Declare variables
     private FirebaseFirestore db;
     private CollectionReference userCollectionRef;
     private ArrayList<Integer> steps;
@@ -42,9 +44,17 @@ public class Ranking extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rankings);
+        //Initialize declared variables
+
         db = FirebaseFirestore.getInstance();
+
+        //arraylist for storing the steps of users on the leaderboard
         steps = new ArrayList<Integer>();
+
+        //arraylist for storing the names of users on the leaderboard
         name = new ArrayList<String>();
+
+        //Leaderboard ranking text views for steps and names
         rank1Name = findViewById(R.id.rank1Name);
         rank1Steps = findViewById(R.id.rank1Steps);
         rank2Name = findViewById(R.id.rank2Name);
@@ -65,39 +75,44 @@ public class Ranking extends AppCompatActivity {
         rank9Steps = findViewById(R.id.rank9Steps);
         rank10Name = findViewById(R.id.rank10Name);
         rank10Steps = findViewById(R.id.rank10Steps);
+
+        //Arraylist of of the text view of steps
         stepViews = new ArrayList<>(Arrays.asList(rank1Steps,rank2Steps,rank3Steps,rank4Steps,rank5Steps,rank6Steps,rank7Steps,
         rank8Steps,rank9Steps,rank10Steps));
+
+        //Arraylist of the text view of names
         nameViews = new ArrayList<>(Arrays.asList(rank1Name,rank2Name,rank3Name,rank4Name,rank5Name,rank6Name,rank7Name,
                 rank8Name,rank9Name,rank10Name));
 
     }
+    //function for showing the top 10 ranked user names to the leaderboard
     private void showRankingName(ArrayList<String> array){
         for(int i = 0; i < array.size(); i++) {
             nameViews.get(i).setText(array.get(i).toString());
         }
     }
-
+    //function for showing the top 10 ranked user steps to the leaderboard
     private void showRankingSteps(ArrayList<Integer> array){
         for(int i = 0; i < array.size(); i++) {
             stepViews.get(i).setText(array.get(i).toString());
         }
-
     }
 
     @Override
     protected void onStart(){
         super.onStart();
         userCollectionRef = db.collection("User");
+        //query Firebase user database for the top 10 users with the most daily steps in descending order
         userCollectionRef.orderBy("dailySteps", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                //if query is successful, add each user's name and steps to the name arraylist and steps arraylist
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot document: task.getResult()){
-
                         name.add(document.getString("firstName") + " " + document.getString("lastName"));
                         steps.add(document.getLong("dailySteps").intValue());
-
                     }
+                    //Display top 10 users name and steps to the leaderboard
                     showRankingName(name);
                     showRankingSteps(steps);
 

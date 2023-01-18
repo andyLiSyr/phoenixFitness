@@ -17,8 +17,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
+//Login page
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    //Declaring variables
     private FirebaseAuth mAuth;
     private EditText logInEmailInput;
     private EditText logInPasswordInput;
@@ -30,11 +31,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //Initializing declared variables
+
+        //Firebase Authentication Instance
         mAuth = FirebaseAuth.getInstance();
+
+        //log in input
         logInEmailInput = findViewById(R.id.logInEmailInput);
         logInPasswordInput = findViewById(R.id.logInPasswordInput);
         logInButton = findViewById(R.id.logInButton);
         logInButton.setOnClickListener(this);
+
+        //go to sign up page button
         goToSignUp = findViewById(R.id.registerButton);
         goToSignUp.setOnClickListener(this);
 
@@ -44,9 +52,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            //execute loginUser function after pressing log in button
             case R.id.logInButton:
                 logInUser();
                 break;
+            //execute open sign up activity function after pressing sign up button
             case R.id.registerButton:
                 openSignUpActivity();
                 break;
@@ -55,15 +65,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    //log in user function
     private void logInUser(){
+        //get email and password from user input
         String email = logInEmailInput.getText().toString();
         String password = logInPasswordInput.getText().toString();
 
+        //error checking for invalid email
         if(TextUtils.isEmpty(email) || !(Patterns.EMAIL_ADDRESS.matcher(email).matches())){
             logInEmailInput.setError("Invalid email");
             logInEmailInput.requestFocus();
 
         }
+
+        //error checking for empty password
         else if (TextUtils.isEmpty(password)){
             logInPasswordInput.setError("Empty Password not allowed");
             logInPasswordInput.requestFocus();
@@ -73,10 +88,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
+                    //if log in successful redirect to user main activity page or home page
                     if (task.isSuccessful()){
                         Toast.makeText(LoginActivity.this, "Log in Successful",Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }
+                    //if there was an error logging in display error message
                     else{
                         Toast.makeText(LoginActivity.this, "Log in Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -85,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
-
+    //open sign up page function
     private void openSignUpActivity(){
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);

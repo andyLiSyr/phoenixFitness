@@ -16,12 +16,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
+//Reset steps and calorie counter to 0 at the end of the day
 public class AlertReceiver extends BroadcastReceiver {
     @Override
+    //updates calories and dailysteps to 0 at the end of the day
     public void onReceive(Context context, Intent intent){
-
-
         FirebaseFirestore.getInstance().collection("User").get().
                 addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
