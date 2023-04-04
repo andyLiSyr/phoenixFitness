@@ -2,7 +2,6 @@
 
 
 ## Description:
-Video Demo: https://drive.google.com/file/d/1OFXEUsRuey_jLDhbexWlMy76mJ-6PAId/view
 
 This is an simple Android fitness app created in Android Studio that keeps track of a user's daily calorie intake, daily walking steps and calories burned from walking. There is also a leaderboard where the top 10 users with the most daily steps are displayed. 
 
